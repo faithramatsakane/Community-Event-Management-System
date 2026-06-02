@@ -1,11 +1,11 @@
-# 📌 Community Event Management System (CEMS)
+#  Community Event Management System (CEMS)
 
-## 📖 Overview
+##  Overview
 The **Community Event Management System (CEMS)** is a group project designed to simplify the planning, organization, and execution of community events. It provides tools for organizers, attendees, and volunteers to interact seamlessly, ensuring events are well-managed from start to finish.
 
 ---
 
-## 🎯 Project Goals
+##  Project Goals
 - Streamline event creation and scheduling.
 - Improve communication between organizers, attendees, and volunteers.
 - Provide secure ticketing and registration.
@@ -14,7 +14,7 @@ The **Community Event Management System (CEMS)** is a group project designed to 
 
 ---
 
-## 🧩 Epics
+##  Epics
 - **[User Management](ca://s?q=Explain_User_Management_epic)** – Secure registration, login, and role-based access.  
 - **[Event Creation & Scheduling](ca://s?q=Explain_Event_Creation_epic)** – Tools for creating events, setting dates, and managing calendars.  
 - **[Event Promotion](ca://s?q=Explain_Event_Promotion_epic)** – Notifications, email/SMS alerts, and social media sharing.  
@@ -27,16 +27,17 @@ The **Community Event Management System (CEMS)** is a group project designed to 
 
 ---
 
-## 🛠️ Tech Stack
-- **Frontend:** React, HTML, CSS, JavaScript  
-- **Backend:** Node.js / Django (depending on team choice)  
-- **Database:** PostgreSQL / MySQL  
-- **Version Control:** Git & GitHub  
+##  Tech Stack
 - **Project Management:** Jira (Epics-focused workflow)
+- **Frontend:**  HTML, CSS, JavaScript  
+- **Backend:**  
+- **Database:**   
+- **Version Control:** Git & GitHub  
+
 
 ---
 
-## 👥 Contributors
+##  Contributors
 This is a group project developed by:  
 - Faith Ramatsakane  
 - Rivoningo Ndlhovu
