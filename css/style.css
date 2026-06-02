@@ -1,0 +1,136 @@
+:root {
+  --beige: #fdf6f0;
+  --peach: #ffe0b2;
+  --coral: #ffb3a7;
+  --terracotta: #e07a5f;
+  --teal: #3d5a80;
+  --charcoal: #333333;
+}
+
+/* Global */
+body {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  line-height: 1.6;
+  background: linear-gradient(to bottom right, var(--beige), var(--peach), var(--coral));
+  color: var(--charcoal);
+
+  display: flex;              /* enable flexbox */
+  flex-direction: column;     /* stack header, main, footer vertically */
+  align-items: center;        /* center horizontally */
+}
+
+/* Limit content width */
+header, main, footer {
+  width: 100%;
+  max-width: 1000px;          /* keeps content centered neatly */
+}
+
+/* Header & Navigation */
+header {
+  background: var(--beige);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 0;
+  z-index: 50;
+}
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+nav h1 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--terracotta);
+}
+nav ul {
+  list-style: none;
+  display: flex;
+  gap: 1rem;
+}
+nav ul li a {
+  color: var(--charcoal);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+nav ul li a:hover {
+  color: var(--terracotta);
+}
+
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 4rem 2rem;
+}
+.hero h2 {
+  font-size: 2.5rem;
+  color: var(--terracotta);
+}
+.hero p {
+  max-width: 600px;
+  margin: 1rem auto;
+  font-size: 1.2rem;
+  color: var(--charcoal);
+}
+.buttons {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+}
+
+/* Buttons */
+.btn-primary {
+  background: var(--terracotta);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.btn-primary:hover {
+  background: var(--teal);
+  transform: scale(1.05);
+}
+.btn-secondary {
+  border: 2px solid var(--terracotta);
+  color: var(--terracotta);
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+.btn-secondary:hover {
+  background: var(--terracotta);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Footer */
+footer {
+  background: var(--terracotta);
+  color: white;
+  text-align: center;
+  padding: 1rem;
+}
+/* Center all main headings */
+h1{
+  text-align: center;
+}
+
+/* Optional: give h1 a warm accent color */
+h1 {
+  color: var(--terracotta);
+  margin: 0.5rem 0;
+}
+
+/* Hero heading */
+.hero h2 {
+  font-size: 2.5rem;
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
