@@ -134,3 +134,17 @@ h1 {
   color: var(--terracotta);
   margin-bottom: 1rem;
 }
+h1, h2, h3, p {
+  text-align: center;
+}
+.content {
+  text-align: center;        /* centers headings and text */
+}
+
+.content ul {
+  display: inline-block;     /* keeps the list block centered */
+  text-align: left;          /* aligns list items neatly */
+  margin: 0 auto;
+}
+
+
