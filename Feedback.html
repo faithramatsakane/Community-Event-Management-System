@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App & Services Feedback Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <main>
+        <h1>Community Management App Feedback</h1>
+        <p class="intro-text">We value your opinion! Please take a moment to tell us about your experience with our app and services.</p>
+
+        <form action="/submit-feedback" method="POST">
+            
+            <fieldset>
+                <legend>Personal Information (Optional)</legend>
+                
+                <p class="field-group">
+                    <label for="user-name">Full Name</label>
+                    <input type="text" id="user-name" name="userName" placeholder="Alex Morgan" autocomplete="name">
+                </p>
+
+                <p class="field-group">
+                    <label for="user-email">Email Address</label>
+                    <input type="email" id="user-email" name="userEmail" placeholder="alex@example.com" autocomplete="email">
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Your Experience</legend>
+
+                <p class="field-group">
+                    <label for="feedback-reason">What is the primary reason for your feedback?</label>
+                    <select id="feedback-reason" name="feedbackReason" required>
+                        <option value="" disabled selected>Select an option</option>
+                        <option value="app-features">App Features & Usability</option>
+                        <option value="customer-service">Customer Support / Services</option>
+                        <option value="bug-report">Bug or Technical Issue</option>
+                        <option value="billing">Billing / Subscription</option>
+                        <option value="other">Other</option>
+                    </select>
+                </p>
+
+                <p class="field-group radio-container">
+                    <label id="rating-group-label">How would you rate your overall experience?</label>
+                    <span class="radio-group-row" role="radiogroup" aria-labelledby="rating-group-label">
+                        <span class="radio-option">
+                            <input type="radio" id="rate-1" name="rating" value="1" required>
+                            <label for="rate-1">1 (Poor)</label>
+                        </span>
+                        <span class="radio-option">
+                            <input type="radio" id="rate-2" name="rating" value="2">
+                            <label for="rate-2">2</label>
+                        </span>
+                        <span class="radio-option">
+                            <input type="radio" id="rate-3" name="rating" value="3">
+                            <label for="rate-3">3</label>
+                        </span>
+                        <span class="radio-option">
+                            <input type="radio" id="rate-4" name="rating" value="4">
+                            <label for="rate-4">4</label>
+                        </span>
+                        <span class="radio-option">
+                            <input type="radio" id="rate-5" name="rating" value="5">
+                            <label for="rate-5">5 (Excellent)</label>
+                        </span>
+                    </span>
+                </p>
+
+                <p class="field-group">
+                    <label for="feedback-comments">Detailed Review</label>
+                    <textarea id="feedback-comments" name="feedbackComments" rows="5" placeholder="Tell us what you love, or what we can improve..." required></textarea>
+                </p>
+            </fieldset>
+
+            <fieldset>
+                <legend>Follow-up</legend>
+                <span class="checkbox-option">
+                    <input type="checkbox" id="contact-consent" name="contactConsent" value="yes">
+                    <label for="contact-consent">You may contact me regarding this feedback if needed.</label>
+                </span>
+            </fieldset>
+
+            <button type="submit">Submit Feedback</button>
+
+        </form>
+    </main>
+
+</body>
+</html>
