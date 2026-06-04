@@ -225,3 +225,17 @@ h1 {
 .contact-info p {
   margin: 0.5rem 0;
 }
+h1, h2, h3, p {
+  text-align: center;
+}
+.content {
+  text-align: center;        /* centers headings and text */
+}
+
+.content ul {
+  display: inline-block;     /* keeps the list block centered */
+  text-align: left;          /* aligns list items neatly */
+  margin: 0 auto;
+}
+
+
