@@ -134,6 +134,97 @@ h1 {
   color: var(--terracotta);
   margin-bottom: 1rem;
 }
+
+/* ==========================
+   Contact Page Styling
+   ========================== */
+
+.contact-section {
+  padding: 3rem 2rem;
+  text-align: center;
+}
+
+.contact-section h2 {
+  color: var(--terracotta);
+  margin-bottom: 1rem;
+}
+
+.contact-section p {
+  max-width: 700px;
+  margin: 0 auto 2rem;
+}
+
+/* Contact Form */
+.contact-form {
+  background: rgba(255, 255, 255, 0.9);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.contact-form label {
+  display: block;
+  text-align: left;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  color: var(--teal);
+}
+
+.contact-form input,
+.contact-form textarea,
+.contact-form select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: inherit;
+  box-sizing: border-box;
+}
+
+.contact-form textarea {
+  resize: vertical;
+  min-height: 150px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus,
+.contact-form select:focus {
+  outline: none;
+  border-color: var(--terracotta);
+  box-shadow: 0 0 5px rgba(224, 122, 95, 0.4);
+}
+
+.contact-form button {
+  background: var(--terracotta);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: 0.3s ease;
+}
+
+.contact-form button:hover {
+  background: var(--teal);
+  transform: scale(1.05);
+}
+
+/* Contact Information */
+.contact-info {
+  margin-top: 2rem;
+}
+
+.contact-info h3 {
+  color: var(--terracotta);
+}
+
+.contact-info p {
+  margin: 0.5rem 0;
+}
 h1, h2, h3, p {
   text-align: center;
 }
