@@ -238,4 +238,13 @@ h1, h2, h3, p {
   margin: 0 auto;
 }
 
+fieldset input[type="radio"] {
+  width: auto;
+  margin-left: 10px;
+  margin-right: 5px;
+}
 
+fieldset label[for^="rate-"] {
+  display: inline;
+  margin-right: 15px;
+}
