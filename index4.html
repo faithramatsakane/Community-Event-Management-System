@@ -1,108 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Community Event Management System</title>
-  <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Event Management System - Contact Us</title>
+
+    <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
-  <header>
+<header>
     <nav>
       <h1>CEMS</h1>
       <ul>
         <li><a href="index.html">Home</a></li>
         <li><a href="index1.html">About</a></li>
         <li><a href="index2.html">Sign Up</a></li>
-        <li><a href="index3.html">Feedback</a></li>
-        <li><a href="index4.html">Events</a></li>
-        <li><a href="index5.html">Contact</a></li>
+        <li><a href="index3.html">Events</a></li>
+        <li><a href="index4.html">Contact</a></li>
+        <li><a href="index5.html">Feedback & Reviews</a></li>
         <li><a href="index6.html">Terms & Conditions</a></li>
-        <li><a href="index7.html">View Reviews</a></li>
       </ul>
     </nav>
   </header>
 
-  <main>
-     <section class="hero">
-      <h2>Upcoming Community Events</h2>
-      <p>
-        Explore exciting events happening in your community.
-        Register and participate in activities that bring people together.
-      </p>
-    </section>
+    <main>
+        <section class="contact-section">
 
-    <section class="events-list">
+            <h2>Contact Us</h2>
 
-      <article>
-        <h3>Community Clean-Up Day</h3>
-        <p><strong>Date:</strong> 15 June 2026</p>
-        <p><strong>Location:</strong> Community Park</p>
-        <p>
-          Join volunteers in keeping our neighbourhood clean and beautiful.
-        </p>
-        <button>Register</button>
-      </article>
+            <p>
+                Do you have questions about upcoming events, volunteering opportunities,
+                sponsorships, or community partnerships? We'd love to hear from you.
+                Fill out the form below and our team will get back to you as soon as possible.
+            </p>
 
-      <article>
-        <h3>Youth Skills Development Workshop</h3>
-        <p><strong>Date:</strong> 22 June 2026</p>
-        <p><strong>Location:</strong> Community Hall</p>
-        <p>
-          Learn valuable career, technology, and leadership skills from industry professionals.
-        </p>
-        <button>Register</button>
-      </article>
+            <form class="contact-form" action="#" method="post">
 
-      <article>
-        <h3>Community Sports Tournament</h3>
-        <p><strong>Date:</strong> 05 July 2026</p>
-        <p><strong>Location:</strong> Sports Grounds</p>
-        <p>
-          Participate in football, netball, and other sporting activities.
-        </p>
-        <button>Register</button>
-      </article>
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required>
 
-      <article>
-        <h3>Charity Fundraising Event</h3>
-        <p><strong>Date:</strong> 18 July 2026</p>
-        <p><strong>Location:</strong> Civic Centre</p>
-        <p>
-          Support local community projects through fundraising activities and entertainment.
-        </p>
-        <button>Register</button>
-      </article>
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" required>
 
-    </section>
+                <label for="category">Inquiry Type</label>
+                <select id="category" name="category" required>
+                    <option value="">Select an option</option>
+                    <option>General Inquiry</option>
+                    <option>Event Registration</option>
+                    <option>Volunteer Application</option>
+                    <option>Sponsorship Request</option>
+                    <option>Feedback</option>
+                </select>
 
-    <section class="event-registration">
-      <h2>Register for an Event</h2>
+                <label for="message">Message</label>
+                <textarea id="message" name="message" required></textarea>
 
-      <form action="#" method="post">
-        <label for="fullname">Full Name:</label><br>
-        <input type="text" id="fullname" name="fullname" required><br><br>
+                <button type="submit">Send Message</button>
 
-        <label for="email">Email Address:</label><br>
-        <input type="email" id="email" name="email" required><br><br>
+            </form>
 
-        <label for="event">Select Event:</label><br>
-        <select id="event" name="event">
-          <option>Community Clean-Up Day</option>
-          <option>Youth Skills Development Workshop</option>
-          <option>Community Sports Tournament</option>
-          <option>Charity Fundraising Event</option>
-        </select><br><br>
+            <section class="contact-info">
+                <h3>Contact Information</h3>
 
-        <button type="submit">Submit Registration</button>
-      </form>
-    </section>
+                <p><strong>Email:</strong> info@communityevents.org</p>
+                <p><strong>Phone:</strong> +27 11 123 4567</p>
+                <p><strong>Address:</strong> 123 Main Street, Randburg, Johannesburg, South Africa</p>
+            </section>
 
-  </main>
+        </section>
+    </main>
 
-  <footer>
-    <p>&copy; 2026 Community Event Management System</p>
-  </footer>
+    <footer>
+        <p>&copy; 2026 Community Event Management System. All Rights Reserved.</p>
+    </footer>
 
 </body>
+
 </html>
