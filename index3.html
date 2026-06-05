@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
+ <header>
     <nav>
       <h1>CEMS</h1>
       <ul>
@@ -20,6 +20,7 @@
         <li><a href="index6.html">Terms & Conditions</a></li>
       </ul>
     </nav>
+  </header>
   </header>
 
   <main>
@@ -40,7 +41,7 @@
         <p>
           Join volunteers in keeping our neighbourhood clean and beautiful.
         </p>
-        <button>Register</button>
+        <button onclick="registerEvent('Community Clean-Up Day')">Register</button>
       </article>
 
       <article>
@@ -50,7 +51,7 @@
         <p>
           Learn valuable career, technology, and leadership skills from industry professionals.
         </p>
-        <button>Register</button>
+        <button onclick="registerEvent('Youth Skills Development Workshop')"></button>Register</button>
       </article>
 
       <article>
@@ -60,7 +61,7 @@
         <p>
           Participate in football, netball, and other sporting activities.
         </p>
-        <button>Register</button>
+        <button onclick="registerEvent('Community Sports Tournament')"></button>Register</button>
       </article>
 
       <article>
@@ -70,8 +71,9 @@
         <p>
           Support local community projects through fundraising activities and entertainment.
         </p>
-        <button>Register</button>
+        <button onclick="registerEvent('Charity Fundraising Event')"></button>Register</button>
       </article>
+
 
     </section>
 
@@ -96,6 +98,19 @@
         <button type="submit">Submit Registration</button>
       </form>
     </section>
+    
+    
+<script>
+  function registerEvent(eventName) {
+    document.getElementById("event").value = eventName;
+
+    alert("✅ Event selected: " + eventName +
+    "\nNow complete the form below.");
+
+    document.querySelector(".event-registration")
+      .scrollIntoView({ behavior: "smooth" });
+  }
+</script>
 
   </main>
 
