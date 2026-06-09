@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Events - CEMS</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <nav class="navbar">
+      <div class="nav-brand">
+        <h1>🎉 CEMS</h1>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="events.html" class="active">Events</a></li>
+        <li><a href="organizer.html">Organize</a></li>
+        <li><a href="login.html">Login</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="events-container">
+    <section class="events-header">
+      <h2>Browse Community Events</h2>
+      <p>Discover exciting events happening in your community</p>
+    </section>
+
+    <!-- Filters Section -->
+    <section class="filters-section">
+      <div class="filter-group">
+        <input type="search" id="searchInput" placeholder="Search events...">
+      </div>
+      <div class="filter-group">
+        <label for="categoryFilter">Category:</label>
+        <select id="categoryFilter">
+          <option value="">All Categories</option>
+          <option value="sports">Sports</option>
+          <option value="music">Music</option>
+          <option value="workshop">Workshop</option>
+          <option value="social">Social</option>
+          <option value="conference">Conference</option>
+          <option value="charity">Charity</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="dateFilter">Date:</label>
+        <input type="date" id="dateFilter">
+      </div>
+      <div class="filter-group">
+        <label for="priceFilter">Price Range:</label>
+        <select id="priceFilter">
+          <option value="">All Prices</option>
+          <option value="free">Free</option>
+          <option value="budget">Under R500</option>
+          <option value="standard">R500 - R1000</option>
+          <option value="premium">R1000+</option>
+        </select>
+      </div>
+    </section>
+
+    <!-- Events Grid -->
+    <section class="events-grid" id="eventsGrid">
+      <!-- Events will be populated here by JavaScript -->
+    </section>
+
+    <!-- No Results Message -->
+    <div class="no-results hidden" id="noResults">
+      <p>No events found. Try adjusting your filters.</p>
+    </div>
+  </main>
+
+  <!-- Event Detail Modal -->
+  <div class="modal hidden" id="eventModal">
+    <div class="modal-content">
+      <span class="close" onclick="closeEventModal()">&times;</span>
+      <div id="modalEventDetails">
+        <!-- Event details will be populated here -->
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2024 Community Event Management System. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/events.js"></script>
+</body>
+</html>
