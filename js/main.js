@@ -18,7 +18,7 @@ let eventDatabase = [
     attendees: 45,
     organizer: "Green Community",
     contactEmail: "green@community.com",
-    image: "",
+    image: "Images/cleanup.jpg",
     description: "Join us for a community clean up drive in Braamfontein. We'll be collecting trash and improving our local environment across Gauteng."
   },
   {
@@ -36,7 +36,7 @@ let eventDatabase = [
     attendees: 32,
     organizer: "Tech Academy",
     contactEmail: "contact@techacademy.com",
-    image: "",
+    image: "Images/code.jfif",
     description: "Learn the fundamentals of web development with hands-on practice at Sandton Tech Hub. Suitable for beginners to intermediate developers across Gauteng."
   },
   {
@@ -54,7 +54,7 @@ let eventDatabase = [
     attendees: 250,
     organizer: "Cultural Events Inc",
     contactEmail: "events@cultural.com",
-    image: "",
+    image: "Images/music-festival.jpg",
     description: "Experience an evening of live music featuring local Gauteng artists and emerging talents from the community."
   },
   {
@@ -72,7 +72,7 @@ let eventDatabase = [
     attendees: 120,
     organizer: "Local Sports Club",
     contactEmail: "sports@clublocal.com",
-    image: "",
+    image: "Images/sports.jpg",
     description: "Join our charity sports tournament in Johannesburg. All proceeds support local Gauteng youth programs."
   }
 ];
