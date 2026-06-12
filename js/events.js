@@ -111,7 +111,9 @@ function renderEventsGrid() {
   
   eventsGrid.innerHTML = filteredEvents.map(event => `
     <article class="event-card" onclick="showEventDetails(${event.id})" tabindex="0" role="button">
-      <figure class="event-image">${event.image || ''}</figure>
+      <figure class="event-image">
+        ${event.image ? `<img src="${event.image}" alt="${event.name}">` : ''}
+      </figure>
       <section class="event-content">
         <span class="event-category">${event.category.toUpperCase()}</span>
         <h3 class="event-title">${event.name}</h3>
@@ -144,8 +146,8 @@ function showEventDetails(eventId) {
   modalContent.innerHTML = `
     <h2>${event.name}</h2>
     <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
-      <figure style="width: 100%; height: 250px; background: linear-gradient(135deg, #4A90E2, #A78BFA); display: flex; align-items: center; justify-content: center; font-size: 4rem; border-radius: 8px;">
-        ${event.image || ''}
+      <figure style="width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; background: #f2f2f2;">
+        ${event.image ? `<img src="${event.image}" alt="${event.name}" style="width:100%; height:100%; object-fit:cover;">` : ''}
       </figure>
       <section>
         <h3 style="color: #4A90E2; margin-bottom: 1rem;">Event Information</h3>

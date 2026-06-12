@@ -33,9 +33,10 @@
 }
 
 .logo img {
-  height: 60px;
+  height: 100px;
   width: auto;
   vertical-align: middle;
+  max-width: 200px;
 }
 
 nav {
@@ -635,6 +636,14 @@ legend {
   justify-content: center;
   color: white;
   font-size: 3rem;
+  overflow: hidden;
+}
+
+.event-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
 .event-content {
