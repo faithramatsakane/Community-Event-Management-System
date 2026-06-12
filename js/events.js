@@ -150,7 +150,7 @@ function showEventDetails(eventId) {
         ${event.image ? `<img src="${event.image}" alt="${event.name}" style="width:100%; height:100%; object-fit:cover;">` : ''}
       </figure>
       <section>
-        <h3 style="color: #4A90E2; margin-bottom: 1rem;">Event Information</h3>
+        <h3 style="color: var(--primary); margin-bottom: 1rem;">Event Information</h3>
         <p><strong>Category:</strong> ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</p>
         <p><strong>Type:</strong> ${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</p>
         <p><strong>Date:</strong> ${formatDate(event.date)}</p>
@@ -164,12 +164,12 @@ function showEventDetails(eventId) {
     </section>
     
     <section>
-      <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Description</h3>
+      <h3 style="color: var(--primary); margin: 2rem 0 1rem;">Description</h3>
       <p>${event.description}</p>
     </section>
     
     <section>
-      <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Organizer Information</h3>
+      <h3 style="color: var(--primary); margin: 2rem 0 1rem;">Organizer Information</h3>
       <p><strong>Organizer:</strong> ${event.organizer}</p>
       <p><strong>Email:</strong> <a href="mailto:${event.contactEmail}">${event.contactEmail}</a></p>
       ${event.phone ? `<p><strong>Phone:</strong> ${event.phone}</p>` : ''}

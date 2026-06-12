@@ -266,7 +266,7 @@ function loadAnalytics() {
       </div>
     </div>
     
-    <h3 style="margin-top: 2rem; color: #4A90E2;">Event Summary</h3>
+    <h3 style="margin-top: 2rem; color: var(--primary);">Event Summary</h3>
     <table class="admin-table">
       <thead>
         <tr>

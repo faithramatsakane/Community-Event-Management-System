@@ -1,14 +1,18 @@
 /* ===== ROOT VARIABLES ===== */
 :root {
-  --primary: #4A90E2;
-  --secondary: #6DBE45;
-  --accent: #A78BFA;
+  --primary: #2a7a63;
+  --primary-dark: #1f5e4f;
+  --secondary: #81b293;
+  --accent: #7fb8aa;
+  --accent2: #9b6fd6;
+  --highlight: #4bc9d9;
+  --blue: #2a7a63;
   --light-bg: #FDFBF7;
   --dark-text: #333333;
   --light-text: #666666;
   --border: #E0E0E0;
   --danger: #E74C3C;
-  --warning: #F39C12;
+  --warning: #8f7ca3;
   --success: #27AE60;
   --info: #3498DB;
   
@@ -82,7 +86,7 @@ main {
 
 /* ===== HEADER & NAVIGATION ===== */
 header {
-  background: linear-gradient(135deg, var(--primary) 0%, #3b7bc8 100%);
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 45%, var(--highlight) 100%);
   color: white;
   padding: var(--spacing-lg) var(--spacing-xl);
   box-shadow: var(--shadow-md);
@@ -301,7 +305,7 @@ footer {
 
 /* ===== HERO SECTION ===== */
 .hero {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+  background: linear-gradient(135deg, var(--highlight) 0%, var(--accent) 45%, var(--primary) 100%);
   color: white;
   padding: 5rem var(--spacing-xl);
   text-align: center;
@@ -348,18 +352,18 @@ footer {
 }
 
 .btn-primary:hover {
-  background: #3b7bc8;
+  background: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
 
 .btn-secondary {
-  background: var(--secondary);
+  background: var(--accent);
   color: white;
 }
 
 .btn-secondary:hover {
-  background: #5ba835;
+  background: var(--accent2);
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
 }
@@ -659,7 +663,7 @@ legend {
 
 .event-category {
   display: inline-block;
-  background: var(--primary);
+  background: var(--accent2);
   color: white;
   padding: 0.25rem var(--spacing-md);
   border-radius: var(--radius-full);
@@ -680,7 +684,7 @@ legend {
 .event-price {
   font-size: 1.5rem;
   font-weight: 700;
-  color: var(--secondary);
+  color: var(--highlight);
   margin-bottom: var(--spacing-md);
 }
 
@@ -701,7 +705,7 @@ legend {
 }
 
 .event-button:hover {
-  background: #3b7bc8;
+  background: var(--primary-dark);
 }
 
 .no-results {
@@ -984,7 +988,7 @@ legend {
 }
 
 .stat-card {
-  background: linear-gradient(135deg, var(--primary), #3b7bc8);
+  background: linear-gradient(135deg, var(--primary), var(--accent));
   color: white;
   padding: var(--spacing-xl);
   border-radius: var(--radius-lg);
