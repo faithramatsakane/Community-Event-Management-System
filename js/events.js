@@ -110,22 +110,22 @@ function renderEventsGrid() {
   noResults.classList.add('hidden');
   
   eventsGrid.innerHTML = filteredEvents.map(event => `
-    <div class="event-card" onclick="showEventDetails(${event.id})">
-      <div class="event-image">${event.image || '📅'}</div>
-      <div class="event-content">
+    <article class="event-card" onclick="showEventDetails(${event.id})" tabindex="0" role="button">
+      <figure class="event-image">${event.image || ''}</figure>
+      <section class="event-content">
         <span class="event-category">${event.category.toUpperCase()}</span>
         <h3 class="event-title">${event.name}</h3>
-        <div class="event-details">
-          <div>📅 ${formatDate(event.date)} at ${formatTime(event.time)}</div>
-          <div>📍 ${event.venue}, ${event.city}</div>
-          <div>👥 ${event.attendees}/${event.capacity} attendees</div>
-        </div>
+        <section class="event-details">
+          <p> ${formatDate(event.date)} at ${formatTime(event.time)}</p>
+          <p> ${event.venue}, ${event.city}</p>
+          <p> ${event.attendees}/${event.capacity} attendees</p>
+        </section>
         <div class="event-price ${event.price === 0 ? 'free' : ''}">
           ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}
         </div>
-        <button class="event-button">View Details</button>
-      </div>
-    </div>
+        <button class="event-button" type="button">View Details</button>
+      </section>
+    </article>
   `).join('');
 }
 
@@ -143,13 +143,11 @@ function showEventDetails(eventId) {
   
   modalContent.innerHTML = `
     <h2>${event.name}</h2>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
-      <div>
-        <div style="width: 100%; height: 250px; background: linear-gradient(135deg, #4A90E2, #A78BFA); display: flex; align-items: center; justify-content: center; font-size: 4rem; border-radius: 8px;">
-          ${event.image || '📅'}
-        </div>
-      </div>
-      <div>
+    <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
+      <figure style="width: 100%; height: 250px; background: linear-gradient(135deg, #4A90E2, #A78BFA); display: flex; align-items: center; justify-content: center; font-size: 4rem; border-radius: 8px;">
+        ${event.image || ''}
+      </figure>
+      <section>
         <h3 style="color: #4A90E2; margin-bottom: 1rem;">Event Information</h3>
         <p><strong>Category:</strong> ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</p>
         <p><strong>Type:</strong> ${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</p>
@@ -160,23 +158,27 @@ function showEventDetails(eventId) {
         <p><strong>Price:</strong> ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}</p>
         <p><strong>Attendees:</strong> ${event.attendees}/${event.capacity}</p>
         <p><strong>Available Spots:</strong> ${availableSpots}</p>
-      </div>
-    </div>
+      </section>
+    </section>
     
-    <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Description</h3>
-    <p>${event.description}</p>
+    <section>
+      <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Description</h3>
+      <p>${event.description}</p>
+    </section>
     
-    <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Organizer Information</h3>
-    <p><strong>Organizer:</strong> ${event.organizer}</p>
-    <p><strong>Email:</strong> <a href="mailto:${event.contactEmail}">${event.contactEmail}</a></p>
-    ${event.phone ? `<p><strong>Phone:</strong> ${event.phone}</p>` : ''}
+    <section>
+      <h3 style="color: #4A90E2; margin: 2rem 0 1rem;">Organizer Information</h3>
+      <p><strong>Organizer:</strong> ${event.organizer}</p>
+      <p><strong>Email:</strong> <a href="mailto:${event.contactEmail}">${event.contactEmail}</a></p>
+      ${event.phone ? `<p><strong>Phone:</strong> ${event.phone}</p>` : ''}
+    </section>
     
-    <div style="display: flex; gap: 1rem; margin-top: 2rem;">
-      <button class="btn btn-primary" onclick="registerForEventAndShow(${event.id})" ${availableSpots === 0 ? 'disabled' : ''}>
+    <footer style="display: flex; gap: 1rem; margin-top: 2rem;">
+      <button class="btn btn-primary" type="button" onclick="registerForEventAndShow(${event.id})" ${availableSpots === 0 ? 'disabled' : ''}>
         ${availableSpots === 0 ? 'Event Full' : 'Register for Event'}
       </button>
-      <button class="btn btn-secondary" onclick="closeEventModal()">Close</button>
-    </div>
+      <button class="btn btn-secondary" type="button" onclick="closeEventModal()">Close</button>
+    </footer>
   `;
   
   modal.classList.remove('hidden');
