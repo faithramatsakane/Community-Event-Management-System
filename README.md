@@ -314,5 +314,5 @@ By studying this project, you will learn:
 
 ---
 
-Last Updated: 2024
+Last Updated: 2026
 Community Event Management System v1.0
