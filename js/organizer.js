@@ -199,12 +199,12 @@ function loadMyEvents() {
   myEventsGrid.innerHTML = userEvents.map(event => `
     <div class="my-event-card">
       <h3>${event.name}</h3>
-      <div class="event-meta">
-        <p>📅 ${formatDate(event.date)} at ${formatTime(event.time)}</p>
-        <p>📍 ${event.venue}, ${event.city}</p>
-        <p>👥 ${event.attendees}/${event.capacity} Attendees</p>
-        <p>💰 ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}</p>
-      </div>
+      <section= "event-meta">
+        <p> ${formatDate(event.date)} at ${formatTime(event.time)}</p>
+        <p> ${event.venue}, ${event.city}</p>
+        <p> ${event.attendees}/${event.capacity} Attendees</p>
+        <p> ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}</p>
+      </section>
       <div class="my-event-actions">
         <button class="btn btn-small edit-btn" onclick="editEvent(${event.id})">Edit</button>
         <button class="btn btn-small delete-btn" onclick="deleteEvent(${event.id})">Delete</button>

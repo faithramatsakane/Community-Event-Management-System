@@ -10,52 +10,52 @@ let eventDatabase = [
     type: "inperson",
     date: "2024-07-15",
     time: "09:00",
-    venue: "Central Park",
-    city: "New York",
-    address: "Central Park Main Entrance",
+    venue: "Braamfontein Green Hub",
+    city: "Johannesburg",
+    address: "Braamfontein Main Entrance",
     price: 0,
     capacity: 100,
     attendees: 45,
     organizer: "Green Community",
     contactEmail: "green@community.com",
-    image: "🌍",
-    description: "Join us for a community clean up drive at Central Park. We'll be collecting trash and improving our local environment."
+    image: "",
+    description: "Join us for a community clean up drive in Braamfontein. We'll be collecting trash and improving our local environment across Gauteng."
   },
   {
     id: 2,
-    name: "Tech Workshop: Web Development",
+    name: "Tech Workshop: Everything Code",
     category: "workshop",
     type: "hybrid",
-    date: "2024-07-20",
-    time: "14:00",
-    venue: "Tech Hub Downtown",
-    city: "New York",
-    address: "123 Tech Street",
-    price: 450.00,
+    date: "2026-07-20",
+    time: "08:00am",
+    venue: "Sandton Tech Hub",
+    city: "Sandton",
+    address: "Corner of Rivonia Road and West Street",
+    price: 200.00,
     capacity: 50,
     attendees: 32,
     organizer: "Tech Academy",
     contactEmail: "contact@techacademy.com",
-    image: "💻",
-    description: "Learn the fundamentals of web development with hands-on practice. Suitable for beginners to intermediate developers."
+    image: "",
+    description: "Learn the fundamentals of web development with hands-on practice at Sandton Tech Hub. Suitable for beginners to intermediate developers across Gauteng."
   },
   {
     id: 3,
     name: "Community Music Festival",
     category: "music",
     type: "inperson",
-    date: "2024-08-01",
+    date: "2026-08-01",
     time: "18:00",
-    venue: "Riverside Amphitheater",
-    city: "New York",
-    address: "Riverside Drive & 123 St",
+    venue: "Emmarentia Amphitheatre",
+    city: "Johannesburg",
+    address: "Emmarentia Botanical Gardens",
     price: 250.00,
     capacity: 500,
     attendees: 250,
     organizer: "Cultural Events Inc",
     contactEmail: "events@cultural.com",
-    image: "🎵",
-    description: "Experience an evening of live music featuring local artists and emerging talents from the community."
+    image: "",
+    description: "Experience an evening of live music featuring local Gauteng artists and emerging talents from the community."
   },
   {
     id: 4,
@@ -64,16 +64,16 @@ let eventDatabase = [
     type: "inperson",
     date: "2024-08-10",
     time: "10:00",
-    venue: "City Sports Complex",
-    city: "New York",
-    address: "456 Sports Ave",
-    price: 1200.00,
+    venue: "Ellis Park Sports Complex",
+    city: "Johannesburg",
+    address: "Main Stadium Road, Doornfontein",
+    price: 250.00,
     capacity: 200,
     attendees: 120,
     organizer: "Local Sports Club",
     contactEmail: "sports@clublocal.com",
-    image: "⚽",
-    description: "Join our charity sports tournament. All proceeds go to the local youth center."
+    image: "",
+    description: "Join our charity sports tournament in Johannesburg. All proceeds support local Gauteng youth programs."
   }
 ];
 
@@ -159,19 +159,19 @@ function updateNavbarWithUserInfo() {
               <span style="font-size: 0.8rem;">▼</span>
             </button>
             <div class="dropdown-menu hidden" id="userDropdownMenu">
-              <div class="online-indicator">🟢 Online</div>
-              <a href="#" onclick="viewProfile(event)">👤 My Profile</a>
-              <a href="#" onclick="viewMyRegistrations(event)">📋 My Events</a>
+              <div class="online-indicator"> Online</div>
+              <a href="#" onclick="viewProfile(event)"> My Profile</a>
+              <a href="#" onclick="viewMyRegistrations(event)"> My Events</a>
               ${currentUser.role === 'organizer' ? 
-                `<a href="organizer.html">📊 Organize Events</a>` :
-                `<a href="#" onclick="switchToOrganizer(event)">📊 Become Organizer</a>`
+                `<a href="organizer.html"> Organize Events</a>` :
+                `<a href="#" onclick="switchToOrganizer(event)"> Become an Organizer</a>`
               }
               ${currentUser.role === 'admin' ? 
-                `<a href="admin.html">⚙️ Admin Panel</a>` :
+                `<a href="admin.html"> Admin Panel</a>` :
                 ``
               }
               <hr style="margin: 0.5rem 0; border: none; border-top: 1px solid #ddd;">
-              <a href="#" onclick="logoutUser(event)" class="logout-link">🚪 Logout</a>
+              <a href="#" onclick="logoutUser(event)" class="logout-link"> Logout</a>
             </div>
           </div>
         </div>
