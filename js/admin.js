@@ -139,7 +139,7 @@ function loadOrganizers() {
         <td>${org.email}</td>
         <td>${eventCount}</td>
         <td><span style="background: #27AE60; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Active</span></td>
-        <td><span style="background: #F39C12; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Verified</span></td>
+        <td><span style="background: var(--primary); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Verified</span></td>
         <td><button class="btn btn-small btn-secondary" onclick="manageOrganizer(${org.id})">Manage</button></td>
       </tr>
     `;
