@@ -7,14 +7,16 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <header>
-    <nav class="navbar">
-      <div class="nav-brand">
-        <h1>CEMS Admin</h1>
-      </div>
+  <header class="site-header">
+    <nav class="navbar" aria-label="Main Navigation">
+      <section class="nav-brand">
+        <h1>Admin Portal</h1>
+        <small>Manage your community events efficiently</small>
+      </section>
+
       <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
-        <li><a href="admin.html" class="active">Admin</a></li>
+        <li><a href="admin.html" class="active">Dashboard</a></li>
         <li><a href="#" onclick="logout()">Logout</a></li>
       </ul>
     </nav>
@@ -23,82 +25,164 @@
   <main class="admin-container">
     <!-- Admin Sidebar -->
     <aside class="admin-sidebar">
-      <nav class="admin-nav">
-        <h3>Admin Menu</h3>
+
+    <header class="sidebar-header">
+        <h2>Admin Menu</h2>
+    </header>
+
+    <nav class="admin-nav" aria-label="Administrator Navigation">
+
         <ul>
-          <li><a href="#" class="nav-link active" data-section="dashboard">Dashboard</a></li>
-          <li><a href="#" class="nav-link" data-section="users">Users</a></li>
-          <li><a href="#" class="nav-link" data-section="events">Events</a></li>
-          <li><a href="#" class="nav-link" data-section="organizers">Organizers</a></li>
-          <li><a href="#" class="nav-link" data-section="payments">Payments</a></li>
-          <li><a href="#" class="nav-link" data-section="reports">Reports</a></li>
-          <li><a href="#" class="nav-link" data-section="settings">Settings</a></li>
+
+            <li>
+                <a href="#" class="nav-link active" data-section="dashboard">
+                    📊 Dashboard
+                </a>
+            </li>
+
+            <li>
+    <a href="#" class="nav-link" data-section="people">
+        👥 People
+    </a>
+</li>
+
+<li>
+    <a href="#" class="nav-link" data-section="events">
+        📅 Events
+    </a>
+</li>
+
+<li>
+    <a href="#" class="nav-link" data-section="payments">
+        💳 Payments
+    </a>
+</li>
+
+<li>
+    <a href="#" class="nav-link" data-section="reports">
+        📈 Reports
+    </a>
+</li>
+
+<li>
+    <a href="#" class="nav-link" data-section="settings">
+        ⚙️ Settings
+    </a>
+</li>
+
         </ul>
-      </nav>
-    </aside>
+
+    </nav>
+
+</aside>
 
     <!-- Admin Content -->
     <div class="admin-content">
       <!-- Dashboard Section -->
-      <section class="admin-section active" id="dashboard">
-        <h2>Dashboard</h2>
-        <div class="stats-grid">
-          <div class="stat-card">
-            <h3>Total Users</h3>
-            <p class="stat-number" id="totalUsers">0</p>
-          </div>
-          <div class="stat-card">
-            <h3>Active Events</h3>
-            <p class="stat-number" id="activeEvents">0</p>
-          </div>
-          <div class="stat-card">
-            <h3>Total Revenue</h3>
-            <p class="stat-number" id="totalRevenue">R0</p>
-          </div>
-          <div class="stat-card">
-            <h3>Total Attendees</h3>
-            <p class="stat-number" id="totalAttendees">0</p>
-          </div>
+     <!-- Dashboard Section -->
+<section class="admin-section active" id="dashboard">
+
+    <h2>Dashboard Overview</h2>
+
+    <div class="stats-grid">
+
+        <div class="stat-card">
+            <h3>👥 Total Users</h3>
+            <p class="stat-number" id="totalUsers">1,250</p>
+            <small>Registered users</small>
         </div>
 
-        <div class="dashboard-charts">
-          <div class="chart-container">
-            <h3>Events This Month</h3>
-            <canvas id="eventsChart"></canvas>
-          </div>
-          <div class="chart-container">
-            <h3>Revenue Trend</h3>
-            <canvas id="revenueChart"></canvas>
-          </div>
+        <div class="stat-card">
+            <h3>🎯 Organizers</h3>
+            <p class="stat-number" id="totalOrganizers">85</p>
+            <small>Approved organizers</small>
         </div>
-      </section>
+
+        <div class="stat-card">
+            <h3>📅 Events</h3>
+            <p class="stat-number" id="activeEvents">45</p>
+            <small>Active events</small>
+        </div>
+
+        <div class="stat-card">
+            <h3>💳 Revenue</h3>
+            <p class="stat-number" id="totalRevenue">R52,000</p>
+            <small>Total earnings</small>
+        </div>
+
+    </div>
+    
+<div class="dashboard-actions">
+
+    <button class="btn btn-primary">
+        Add User
+    </button>
+
+    <button class="btn btn-primary">
+        Approve Organizer
+    </button>
+
+    <button class="btn btn-primary">
+        Create Report
+    </button>
+
+</div>
+
+</section>
 
       <!-- Users Section -->
-      <section class="admin-section" id="users">
-        <h2>User Management</h2>
-        <div class="section-controls">
-          <input type="search" id="userSearch" placeholder="Search users...">
-          <button class="btn btn-secondary" onclick="exportUsers()">Export Users</button>
-        </div>
-        <table class="admin-table">
-          <thead>
+      <section class="admin-section" id="people">
+
+    <h2>People Management</h2>
+
+    <div class="section-controls">
+
+        <input
+            type="search"
+            id="peopleSearch"
+            placeholder="Search users..."
+        >
+
+        <select id="roleFilter">
+            <option value="">All Roles</option>
+            <option value="user">User</option>
+            <option value="organizer">Organizer</option>
+            <option value="admin">Admin</option>
+        </select>
+
+        <button class="btn btn-secondary">
+            Export Data
+        </button>
+
+    </div>
+
+    <table class="admin-table">
+
+        <thead>
             <tr>
-              <th>User ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Role</th>
-              <th>Join Date</th>
-              <th>Status</th>
-              <th>Actions</th>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Events Created</th>
+                <th>Status</th>
+                <th>Actions</th>
             </tr>
-          </thead>
-          <tbody id="usersTableBody">
+        </thead>
+
+        <tbody id="peopleTableBody">
+
             <tr>
-              <td colspan="7" class="text-center">No users found</td>
+                <td colspan="7" class="text-center">
+                    No users found
+                </td>
             </tr>
-          </tbody>
-        </table>
-      </section>
+
+        </tbody>
+
+    </table>
+
+</section>
 
       <!-- Events Section -->
       <section class="admin-section" id="events">
@@ -134,32 +218,7 @@
         </table>
       </section>
 
-      <!-- Organizers Section -->
-      <section class="admin-section" id="organizers">
-        <h2>Organizer Management</h2>
-        <div class="section-controls">
-          <input type="search" id="organizerSearch" placeholder="Search organizers...">
-          <button class="btn btn-secondary" onclick="approveOrganizerRequest()">Approve Requests</button>
-        </div>
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>Organizer ID</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Events Created</th>
-              <th>Status</th>
-              <th>Verification</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="organizersTableBody">
-            <tr>
-              <td colspan="7" class="text-center">No organizers found</td>
-            </tr>
-          </tbody>
-        </table>
-      </section>
+     
 
       <!-- Payments Section -->
       <section class="admin-section" id="payments">
