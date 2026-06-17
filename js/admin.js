@@ -17,6 +17,8 @@ loadPeople();
 loadEvents();
 loadPayments();
 
+setupPeopleFilters();
+
 });
 
 // Setup admin navigation
@@ -59,13 +61,11 @@ function loadDashboard() {
   const totalUsers = userDatabase.length; // +1 for demo user
   const activeEvents = eventDatabase.filter(e => new Date(e.date) >= new Date()).length;
   const totalRevenue = eventDatabase.reduce((sum, event) => sum + (event.attendees * event.price), 0);
-  const totalAttendees = eventDatabase.reduce((sum, event) => sum + event.attendees, 0);
   const totalOrganizers =userDatabase.filter(user => user.role === 'organizer').length;
   
   document.getElementById('totalUsers').textContent = totalUsers;
   document.getElementById('activeEvents').textContent = activeEvents;
   document.getElementById('totalRevenue').textContent ='R' + totalRevenue.toLocaleString('en-ZA');
-  document.getElementById('totalAttendees').textContent = totalAttendees;
   document.getElementById('totalOrganizers').textContent = totalOrganizers;
 }
 
@@ -296,4 +296,52 @@ function generateReport() {
   
   reportContent.innerHTML = html;
   showSuccessMessage('Report generated successfully');
+}
+
+function setupPeopleFilters() {
+
+    const searchInput =
+        document.getElementById('peopleSearch');
+
+    const roleFilter =
+        document.getElementById('roleFilter');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', filterPeople);
+    }
+
+    if (roleFilter) {
+        roleFilter.addEventListener('change', filterPeople);
+    }
+}
+
+function filterPeople() {
+
+    const searchTerm =
+        document.getElementById('peopleSearch')
+        .value
+        .toLowerCase();
+
+    const selectedRole =
+        document.getElementById('roleFilter')
+        .value;
+
+    const filteredUsers = userDatabase.filter(user => {
+
+        const fullName =
+            `${user.firstName || ''} ${user.lastName || ''}`
+            .toLowerCase();
+
+        const matchesSearch =
+            fullName.includes(searchTerm) ||
+            user.email.toLowerCase().includes(searchTerm);
+
+        const matchesRole =
+            selectedRole === '' ||
+            user.role === selectedRole;
+
+        return matchesSearch && matchesRole;
+    });
+
+    console.log(filteredUsers);
 }
