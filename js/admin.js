@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Setup admin navigation
-  setupAdminNavigation();
-  
-  // Load dashboard data
-  loadDashboard();
-  loadUsers();
-  loadEvents();
-  loadOrganizers();
-  loadPayments();
+setupAdminNavigation();
+
+// Load dashboard data
+loadDashboard();
+loadPeople();
+loadEvents();
+loadPayments();
+
 });
 
 // Setup admin navigation
@@ -56,7 +56,7 @@ function setupAdminNavigation() {
 
 // Load dashboard
 function loadDashboard() {
-  const totalUsers = userDatabase.length + 1; // +1 for demo user
+  const totalUsers = userDatabase.length; // +1 for demo user
   const activeEvents = eventDatabase.filter(e => new Date(e.date) >= new Date()).length;
   const totalRevenue = eventDatabase.reduce((sum, event) => sum + (event.attendees * event.price), 0);
   const totalAttendees = eventDatabase.reduce((sum, event) => sum + event.attendees, 0);
@@ -248,23 +248,7 @@ Revenue: R${(event.attendees * event.price).toFixed(2)}
   `);
 }
 
-// Manage organizer
-function manageOrganizer(organizerId) {
-  const organizer = userDatabase.find(u => u.id === organizerId);
-  if (!organizer) return;
-  
-  alert(`
-Managing Organizer: ${organizer.firstName} ${organizer.lastName}
-Email: ${organizer.email}
-Status: Active
-Verification: Verified
 
-Actions available:
-- Suspend account
-- Deactivate
-- Send message
-  `);
-}
 
 // View payment details
 function viewPaymentDetails(paymentId) {
@@ -272,7 +256,7 @@ function viewPaymentDetails(paymentId) {
 Payment Details:
 Transaction ID: TXN${String(paymentId).padStart(7, '0')}
 Status: Completed
-Amount: $50.00
+Amount: R50.00
 Payment Method: Credit Card
 Date: Today
   `);
@@ -312,10 +296,4 @@ function generateReport() {
   
   reportContent.innerHTML = html;
   showSuccessMessage('Report generated successfully');
-}
-
-// Approve organizer requests
-function approveOrganizerRequest() {
-  alert('Organizer requests will be shown here. All current organizers are approved.');
-  showSuccessMessage('Organizer requests approved');
 }
