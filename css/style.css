@@ -1422,3 +1422,21 @@ legend {
     font-size: 1.2rem;
   }
 }
+
+/*===== Terms of Service Page =====*/
+
+.policy-container {
+    max-width: 900px;
+    margin: 2rem auto;
+    padding: 2rem;
+    line-height: 1.8;
+}
+
+.policy-container h1 {
+    margin-bottom: 1rem;
+}
+
+.policy-container h2 {
+    margin-top: 2rem;
+    margin-bottom: 0.5rem;
+}
