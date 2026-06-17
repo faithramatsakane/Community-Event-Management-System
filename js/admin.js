@@ -9,14 +9,14 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Setup admin navigation
-  setupAdminNavigation();
-  
-  // Load dashboard data
-  loadDashboard();
-  loadUsers();
-  loadEvents();
-  loadOrganizers();
-  loadPayments();
+setupAdminNavigation();
+
+// Load dashboard data
+loadDashboard();
+loadPeople();
+loadEvents();
+loadPayments();
+
 });
 
 // Setup admin navigation
@@ -56,39 +56,76 @@ function setupAdminNavigation() {
 
 // Load dashboard
 function loadDashboard() {
-  const totalUsers = userDatabase.length + 1; // +1 for demo user
+  const totalUsers = userDatabase.length; // +1 for demo user
   const activeEvents = eventDatabase.filter(e => new Date(e.date) >= new Date()).length;
   const totalRevenue = eventDatabase.reduce((sum, event) => sum + (event.attendees * event.price), 0);
   const totalAttendees = eventDatabase.reduce((sum, event) => sum + event.attendees, 0);
+  const totalOrganizers =userDatabase.filter(user => user.role === 'organizer').length;
   
   document.getElementById('totalUsers').textContent = totalUsers;
   document.getElementById('activeEvents').textContent = activeEvents;
-  document.getElementById('totalRevenue').textContent = '$' + totalRevenue.toFixed(2);
+  document.getElementById('totalRevenue').textContent ='R' + totalRevenue.toLocaleString('en-ZA');
   document.getElementById('totalAttendees').textContent = totalAttendees;
+  document.getElementById('totalOrganizers').textContent = totalOrganizers;
 }
 
-// Load users in admin table
-function loadUsers() {
-  const usersTableBody = document.getElementById('usersTableBody');
-  if (!usersTableBody) return;
-  
-  const allUsers = [...userDatabase];
-  if (allUsers.length === 0) {
-    usersTableBody.innerHTML = '<tr><td colspan="7" class="text-center">No users found</td></tr>';
-    return;
-  }
-  
-  usersTableBody.innerHTML = allUsers.map((user, index) => `
-    <tr>
-      <td>USR${String(user.id).padStart(5, '0')}</td>
-      <td>${user.firstName || 'N/A'} ${user.lastName || ''}</td>
-      <td>${user.email}</td>
-      <td>${user.role}</td>
-      <td>${formatDate(user.createdAt)}</td>
-      <td><span style="background: #27AE60; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Active</span></td>
-      <td><button class="btn btn-small btn-secondary" onclick="viewUserDetails(${user.id})">View</button></td>
-    </tr>
-  `).join('');
+// Load people in admin table
+function loadPeople() {
+    const peopleTableBody =
+        document.getElementById('peopleTableBody');
+
+    if (!peopleTableBody) return;
+
+    if (userDatabase.length === 0) {
+
+        peopleTableBody.innerHTML =
+            '<tr><td colspan="7" class="text-center">No users found</td></tr>';
+
+        return;
+    }
+
+    peopleTableBody.innerHTML =
+        userDatabase.map(user => {
+
+            const eventsCreated =
+                eventDatabase.filter(
+                    event => event.organizerId === user.id
+                ).length;
+
+            return `
+                <tr>
+                    <td>USR${String(user.id).padStart(5, '0')}</td>
+
+                    <td>
+                        ${user.firstName || ''} ${user.lastName || ''}
+                    </td>
+
+                    <td>${user.email}</td>
+
+                    <td>${user.role}</td>
+
+                    <td>${eventsCreated}</td>
+
+                    <td>
+                        <span style="
+                            background:#27AE60;
+                            color:white;
+                            padding:0.25rem 0.5rem;
+                            border-radius:4px;">
+                            Active
+                        </span>
+                    </td>
+
+                    <td>
+                        <button
+                            class="btn btn-small btn-secondary"
+                            onclick="viewUserDetails(${user.id})">
+                            View
+                        </button>
+                    </td>
+                </tr>
+            `;
+        }).join('');
 }
 
 // Load events in admin table
@@ -118,33 +155,7 @@ function loadEvents() {
   }).join('');
 }
 
-// Load organizers in admin table
-function loadOrganizers() {
-  const organizersTableBody = document.getElementById('organizersTableBody');
-  if (!organizersTableBody) return;
-  
-  const organizers = userDatabase.filter(u => u.role === 'organizer');
-  
-  if (organizers.length === 0) {
-    organizersTableBody.innerHTML = '<tr><td colspan="7" class="text-center">No organizers found</td></tr>';
-    return;
-  }
-  
-  organizersTableBody.innerHTML = organizers.map(org => {
-    const eventCount = eventDatabase.filter(e => e.organizerId === org.id).length;
-    return `
-      <tr>
-        <td>ORG${String(org.id).padStart(5, '0')}</td>
-        <td>${org.firstName} ${org.lastName}</td>
-        <td>${org.email}</td>
-        <td>${eventCount}</td>
-        <td><span style="background: #27AE60; color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Active</span></td>
-        <td><span style="background: var(--primary); color: white; padding: 0.25rem 0.5rem; border-radius: 4px; font-size: 0.85rem;">Verified</span></td>
-        <td><button class="btn btn-small btn-secondary" onclick="manageOrganizer(${org.id})">Manage</button></td>
-      </tr>
-    `;
-  }).join('');
-}
+
 
 // Load payments in admin table
 function loadPayments() {
@@ -237,23 +248,7 @@ Revenue: R${(event.attendees * event.price).toFixed(2)}
   `);
 }
 
-// Manage organizer
-function manageOrganizer(organizerId) {
-  const organizer = userDatabase.find(u => u.id === organizerId);
-  if (!organizer) return;
-  
-  alert(`
-Managing Organizer: ${organizer.firstName} ${organizer.lastName}
-Email: ${organizer.email}
-Status: Active
-Verification: Verified
 
-Actions available:
-- Suspend account
-- Deactivate
-- Send message
-  `);
-}
 
 // View payment details
 function viewPaymentDetails(paymentId) {
@@ -261,7 +256,7 @@ function viewPaymentDetails(paymentId) {
 Payment Details:
 Transaction ID: TXN${String(paymentId).padStart(7, '0')}
 Status: Completed
-Amount: $50.00
+Amount: R50.00
 Payment Method: Credit Card
 Date: Today
   `);
@@ -301,10 +296,4 @@ function generateReport() {
   
   reportContent.innerHTML = html;
   showSuccessMessage('Report generated successfully');
-}
-
-// Approve organizer requests
-function approveOrganizerRequest() {
-  alert('Organizer requests will be shown here. All current organizers are approved.');
-  showSuccessMessage('Organizer requests approved');
 }
