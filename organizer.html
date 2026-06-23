@@ -33,7 +33,7 @@
       <button class="tab-btn active" data-tab="create-event">Create Event</button>
       <button class="tab-btn" data-tab="my-events">My Events</button>
       <button class="tab-btn" data-tab="analytics">Analytics</button>
-    </sectiom>
+    </section>
 
     <!-- Create Event Tab -->
     <section class="tab-content active" id="create-event">
@@ -89,7 +89,8 @@
             <section class="form-group">
               <label for="eventEnd">End Date & Time *</label>
               <input type="datetime-local" id="eventEnd" name="endDateTime" required>
-            <section>
+            </section>
+            
             </section>
         </fieldset>
 
@@ -134,12 +135,11 @@
             </section>
           </section>
 
-          <section class="form-group">
-            <label>
-              <input type="checkbox" id="isFreeEvent" name="isFree">
-              This is a free event
-            </label>
-          </section>
+          <section class="checkbox-group">
+            <input type="checkbox" id="isFreeEvent" name="isFree">
+             <label for="isFreeEvent">This is a free event</label>
+</section>
+
         </fieldset>
 
         <fieldset>

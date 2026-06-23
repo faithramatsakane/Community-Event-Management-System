@@ -797,9 +797,10 @@ legend {
 
 .organizer-tabs {
   display: flex;
-  gap: var(--spacing-lg);
-  margin-bottom: var(--spacing-xl);
-  border-bottom: 2px solid var(--border);
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
 .tab-btn {
@@ -838,14 +839,17 @@ legend {
 
 .event-form {
   max-width: 700px;
+  margin: 0 auto;
 }
 
 .form-actions {
   display: flex;
   gap: var(--spacing-lg);
-  justify-content: flex-end;
+  justify-content: center;
   margin-top: var(--spacing-xl);
 }
+
+
 
 .my-events-grid {
   display: grid;
@@ -902,6 +906,27 @@ legend {
   background: var(--danger);
   color: white;
 }
+
+.checkbox-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+  width: auto;
+  margin: 0;
+}
+
+.checkbox-group label {
+  margin: 0;
+  display: inline;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+
 
 /* ===== ADMIN PAGE ===== */
 .admin-container {
