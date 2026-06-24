@@ -120,3 +120,5 @@ LEFT JOIN bookings b
     ON e.event_id = b.event_id
 GROUP BY e.category;
 
+USE community_app;
+

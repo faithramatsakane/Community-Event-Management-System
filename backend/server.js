@@ -1,14 +1,12 @@
-
+const express = require("express");
 const cors = require("cors");
 const mysql = require("mysql2");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Database Connection
 const db = mysql.createConnection({
   host: "localhost",
   user: "root",
@@ -16,170 +14,70 @@ const db = mysql.createConnection({
   database: "community_app"
 });
 
-// Connect to MySQL
-db.connect((err) => {
-  if (err) {
-    console.error("Database connection failed:", err);
-    return;
-  }
-
-  console.log("Connected to Community Event App Database");
-});
-
-// Home Route
-app.get("/", (req, res) => {
-  res.send("Community Event Management System Backend Running");
-});
-
-
 // ===========================
-// USER ROUTES
+// AUTHENTICATION ROUTES
 // ===========================
 
 // Register User
-app.post("/users", (req, res) => {
-  const { name, email } = req.body;
+app.post("/register", (req, res) => {
+  const { name, email, password, role } = req.body;
+  
+  // Basic validation
+  if (!name || !email || !password || !role) {
+    return res.status(400).json({ error: "All fields are required" });
+  }
 
-  const sql = "INSERT INTO users (name, email) VALUES (?, ?)";
+  const sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
 
-  db.query(sql, [name, email], (err, result) => {
-    if (err) return res.status(500).json(err);
-
-    res.status(201).json({
-      message: "User registered successfully",
-      userId: result.insertId
-    });
-  });
-});
-
-// Get All Users
-app.get("/users", (req, res) => {
-  db.query("SELECT * FROM users", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
+  db.query(sql, [name, email, password, role], (err, result) => {
+    if (err) {
+      console.error("SQL Error:", err); // Check your terminal for this!
+      return res.status(500).json({ error: "Database error", details: err.message });
+    }
+    res.status(201).json({ message: "User registered successfully", userId: result.insertId });
   });
 });
 
 
-// ===========================
-// EVENT ROUTES
-// ===========================
+// Login Route
+app.post("/login", (req, res) => {
+  const { email, password, selectedRole } = req.body;
 
-// Create Event
-app.post("/events", (req, res) => {
-  const { title, category, event_date } = req.body;
+  const sql = "SELECT * FROM users WHERE email = ?";
 
-  const sql = "INSERT INTO events (title, category, event_date) VALUES (?, ?, ?)";
+  db.query(sql, [email], (err, results) => {
+    if (err || results.length === 0) return res.status(401).json({ message: "Invalid credentials" });
 
-  db.query(sql, [title, category, event_date], (err, result) => {
-    if (err) return res.status(500).json(err);
+    const user = results[0];
 
-    res.status(201).json({
-      message: "Event created successfully",
-      eventId: result.insertId
-    });
+    // Password Check
+    if (password !== user.password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+
+    // Role-Based Validation Logic
+    if (selectedRole === 'admin') {
+      if (email.endsWith('@communityevent') && user.role === 'admin') {
+        return res.json({ redirect: '/admin-dashboard', role: 'admin' });
+      } else {
+        return res.status(403).json({ message: "Unauthorized: Invalid Admin access." });
+      }
+    }
+
+    if (selectedRole === 'event_organizer' && user.role === 'event_organizer') {
+      return res.json({ redirect: '/organiser-dashboard', role: 'event_organizer' });
+    }
+
+    return res.json({ redirect: '/user-dashboard', role: 'user' });
   });
 });
 
-// Get All Events
-app.get("/events", (req, res) => {
-  db.query("SELECT * FROM events", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
-  });
-});
-
-
 // ===========================
-// BOOKING ROUTES
+// OTHER ROUTES (Events, Bookings, Analytics)
 // ===========================
-
-// Create Booking
-app.post("/bookings", (req, res) => {
-  const { user_id, event_id } = req.body;
-
-  const sql = "INSERT INTO bookings (user_id, event_id) VALUES (?, ?)";
-
-  db.query(sql, [user_id, event_id], (err, result) => {
-    if (err) return res.status(500).json(err);
-
-    res.status(201).json({
-      message: "Booking successful",
-      bookingId: result.insertId
-    });
-  });
-});
-
-// Get All Bookings
-app.get("/bookings", (req, res) => {
-  db.query("SELECT * FROM bookings", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
-  });
-});
-
-
-// ===========================
-// ANALYTICS ROUTES
-// ===========================
-
-// Event Analytics
-app.get("/analytics/events", (req, res) => {
-  db.query("SELECT * FROM vw_event_bookings", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
-  });
-});
-
-// User Analytics
-app.get("/analytics/users", (req, res) => {
-  db.query("SELECT * FROM vw_user_activity", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
-  });
-});
-
-// Category Analytics
-app.get("/analytics/categories", (req, res) => {
-  db.query("SELECT * FROM vw_category_performance", (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results);
-  });
-});
-
-
-// ===========================
-// DASHBOARD SUMMARY
-// ===========================
-
-app.get("/dashboard", (req, res) => {
-  const sql = `
-    SELECT 
-      (SELECT COUNT(*) FROM users) AS total_users,
-      (SELECT COUNT(*) FROM events) AS total_events,
-      (SELECT COUNT(*) FROM bookings) AS total_bookings
-  `;
-
-  db.query(sql, (err, results) => {
-    if (err) return res.status(500).json(err);
-
-    res.json(results[0]);
-  });
-});
-
-
-// ===========================
-// SERVER
-// ===========================
+// ... [Keep your existing Event, Booking, and Analytics routes here] ...
 
 const PORT = 5000;
-
 app.listen(PORT, () => {
-  console.log(`Community Event Management System running on http://localhost:${PORT}`);
+  console.log(`Backend running on http://localhost:${PORT}`);
 });
