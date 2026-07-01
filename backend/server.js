@@ -1,28 +1,47 @@
 const express = require("express");
 const cors = require("cors");
-const mysql = require("mysql2");
 const sequelize = require("./config/database");
+
+// Import Models
 const User = require("./models/User");
-const User = require("./models/Events");
-const User = require("./models/admin");
-const User = require("./models/bookings");
-const User = require("./models/attendance");
-const User = require("./models/dashboard_summary");
-const User = require("./models/registration");
-const User = require("./models/organisers");
-const User = require("./models/revenue");
-const User = require("./models/event_analytics");
+const Event = require("./models/Event");
+const Payment = require("./models/Payment");
+const Booking = require("./models/bookings");
 
 const app = express();
-
 app.use(cors());
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("Hello");
+// --- Define Relationships (Associations) ---
+User.hasMany(Booking);
+Booking.belongsTo(User);
+
+Event.hasMany(Booking);
+Booking.belongsTo(Event);
+
+User.hasMany(Payment);
+Payment.belongsTo(User);
+
+Event.hasMany(Payment);
+Payment.belongsTo(Event);
+
+// --- API Routes ---
+
+// Dashboard Overview Endpoint
+app.get("/api/dashboard", async (req, res) => {
+  try {
+    const totalUsers = await User.count({ where: { role: 'user' } });
+    const totalOrganizers = await User.count({ where: { role: 'organizer', isApproved: true } });
+    const activeEvents = await Event.count({ where: { status: 'active' } });
+    const totalRevenue = await Payment.sum('amount') || 0;
+
+    res.json({ totalUsers, totalOrganizers, activeEvents, totalRevenue });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch dashboard data" });
+  }
 });
 
-// Register
+// Authentication Routes
 app.post("/register", async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -32,66 +51,39 @@ app.post("/register", async (req, res) => {
   }
 });
 
-// Login
 app.post("/login", async (req, res) => {
-  const { email, password, selectedRole } = req.body;
+  try {
+    const { email, password, selectedRole } = req.body;
+    const user = await User.findOne({ where: { email } });
 
-  const user = await User.findOne({ where: { email } });
-
-  if (!user || user.password !== password) {
-    return res.status(401).json({ message: "Invalid credentials" });
+    if (!user || user.password !== password) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    if (selectedRole !== user.role) {
+      return res.status(403).json({ message: "Invalid role" });
+    }
+    res.json({ message: "Login successful", role: user.role });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
-
-  if (selectedRole !== user.role) {
-    return res.status(403).json({ message: "Invalid role" });
-  }
-
-  res.json({
-    message: "Login successful",
-    role: user.role,
-  });
 });
 
-// STEP 1: Create DB if not exists
-const createDatabase = () => {
-  const connection = mysql.createConnection({
-    host: "localhost",
-    user: "root",
-    password: "",
-  });
-
-  connection.connect((err) => {
-    if (err) throw err;
-
-    connection.query(
-      "CREATE DATABASE IF NOT EXISTS community_app",
-      (err) => {
-        if (err) throw err;
-
-        connection.end();
-
-        startSequelize();
-      }
-    );
-  });
-};
-
-
-const startSequelize = async () => {
+// --- Server Initialization ---
+const startServer = async () => {
   try {
     await sequelize.authenticate();
-    console.log("DB connected");
-
-    await sequelize.sync(); 
-
-    console.log("Tables created");
+    console.log("Database connected.");
+    
+    // Sync models and update schema automatically
+    await sequelize.sync({ alter: true });
+    console.log("Database tables synchronized.");
 
     app.listen(5000, () => {
       console.log("Server running on http://localhost:5000");
     });
   } catch (err) {
-    console.error(err);
+    console.error("Connection error:", err);
   }
 };
 
-createDatabase();
+startServer();
