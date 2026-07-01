@@ -1,26 +1,20 @@
-const { DataTypes } = require("sequelize");
-const sequelize = require("../config/database");
+const { DataTypes } = require('sequelize');
+const sequelize = require('../config/database');
 
-const bookings = sequelize.define(
-  "Bookings",
-  {
-    booking_id: {
-      type: DataTypes.INTEGER,
-      autoIncrement: true,
-      primaryKey: true,
-    },
-
-    name: {
-      type: DataTypes.STRING(100),
-      allowNull: true,
-    },
-
-
+const bookings = sequelize.define('Booking', {
+  id: { 
+    type: DataTypes.INTEGER, 
+    primaryKey: true, 
+    autoIncrement: true 
   },
-  {
-    tableName: "Bookings",
-    timestamps: false,
+  status: { 
+    type: DataTypes.STRING, 
+    defaultValue: 'confirmed' 
+  },
+  bookingsDate: { 
+    type: DataTypes.DATE, 
+    defaultValue: DataTypes.NOW 
   }
-);
+});
 
 module.exports = bookings;
