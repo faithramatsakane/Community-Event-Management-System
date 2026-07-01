@@ -7,6 +7,7 @@ const bookings = sequelize.define('Booking', {
     primaryKey: true, 
     autoIncrement: true 
   },
+  
   status: { 
     type: DataTypes.STRING, 
     defaultValue: 'confirmed' 
