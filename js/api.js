@@ -165,13 +165,6 @@ const getCurrentUser = () => {
   return user ? JSON.parse(user) : null;
 };
 
-// Logout user
-const logout = () => {
-  localStorage.removeItem('currentUser');
-  localStorage.removeItem('authToken');
-  window.location.href = 'login.html';
-};
-
 // Handle API errors with user feedback
 const handleApiError = (error, defaultMessage = 'An error occurred') => {
   console.error('API Error:', error);
@@ -190,7 +183,6 @@ const API = {
   utils: {
     isLoggedIn,
     getCurrentUser,
-    logout,
     getAuthToken,
     setAuthToken,
     clearAuthToken,

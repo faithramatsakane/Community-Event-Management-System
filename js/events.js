@@ -12,15 +12,21 @@ document.addEventListener('DOMContentLoaded', function() {
 async function loadAndDisplayEvents() {
   showLoadingMessage('Loading events...');
   
+  console.log('🔄 Fetching events from backend...');
   const result = await API.events.getAll();
   
+  console.log('📊 API Result:', result);
+  console.log('📊 Events Data:', result.data);
+  
   if (result.success) {
+    console.log('✅ Events loaded successfully. Count:', result.data.length);
     eventDatabase = result.data;
     displayAllEvents();
     hideLoadingMessage();
   } else {
+    console.error('❌ Events API error:', result.error);
     showErrorMessage('Failed to load events. Using cached data.');
-    console.error('Events API error:', result.error);
+    console.log('📊 Using local eventDatabase. Count:', eventDatabase.length);
     displayAllEvents();
   }
 }

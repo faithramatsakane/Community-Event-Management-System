@@ -467,6 +467,30 @@ function showErrorMessage(message) {
   }, 3000);
 }
 
+// Show loading message
+function showLoadingMessage(message) {
+  // Remove any existing loading message first
+  const existing = document.getElementById('loadingMessage');
+  if (existing) {
+    existing.remove();
+  }
+  
+  const div = document.createElement('div');
+  div.id = 'loadingMessage';
+  div.className = 'loading-message';
+  div.textContent = message;
+  div.style.cssText = 'position: fixed; top: 100px; right: 20px; background: #3498DB; color: white; padding: 1rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); z-index: 9999; animation: slideIn 0.3s ease;';
+  document.body.appendChild(div);
+}
+
+// Hide loading message
+function hideLoadingMessage() {
+  const div = document.getElementById('loadingMessage');
+  if (div) {
+    div.remove();
+  }
+}
+
 // Validate email
 function isValidEmail(email) {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
