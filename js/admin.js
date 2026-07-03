@@ -57,16 +57,29 @@ function setupAdminNavigation() {
 }
 
 // Load dashboard
-function loadDashboard() {
-  const totalUsers = userDatabase.length; // +1 for demo user
-  const activeEvents = eventDatabase.filter(e => new Date(e.date) >= new Date()).length;
-  const totalRevenue = eventDatabase.reduce((sum, event) => sum + (event.attendees * event.price), 0);
-  const totalOrganizers =userDatabase.filter(user => user.role === 'organizer').length;
+async function loadDashboard() {
+  const result = await API.dashboard.getStats();
   
-  document.getElementById('totalUsers').textContent = totalUsers;
-  document.getElementById('activeEvents').textContent = activeEvents;
-  document.getElementById('totalRevenue').textContent ='R' + totalRevenue.toLocaleString('en-ZA');
-  document.getElementById('totalOrganizers').textContent = totalOrganizers;
+  if (result.success) {
+    const stats = result.data;
+    document.getElementById('totalUsers').textContent = stats.totalUsers || 0;
+    document.getElementById('activeEvents').textContent = stats.activeEvents || 0;
+    document.getElementById('totalRevenue').textContent = 'R' + (stats.totalRevenue || 0).toLocaleString('en-ZA');
+    document.getElementById('totalOrganizers').textContent = stats.totalOrganizers || 0;
+  } else {
+    // Fallback to local data if API fails
+    const totalUsers = userDatabase.length;
+    const activeEvents = eventDatabase.filter(e => new Date(e.date) >= new Date()).length;
+    const totalRevenue = eventDatabase.reduce((sum, event) => sum + (event.attendees * event.price), 0);
+    const totalOrganizers = userDatabase.filter(user => user.role === 'organizer').length;
+    
+    document.getElementById('totalUsers').textContent = totalUsers;
+    document.getElementById('activeEvents').textContent = activeEvents;
+    document.getElementById('totalRevenue').textContent = 'R' + totalRevenue.toLocaleString('en-ZA');
+    document.getElementById('totalOrganizers').textContent = totalOrganizers;
+    
+    console.error('Dashboard stats API error:', result.error);
+  }
 }
 
 // Load people in admin table

@@ -131,11 +131,12 @@ function toggleAuthForms() {
 }
 
 // Handle login submission
-function handleLogin(e) {
+async function handleLogin(e) {
   e.preventDefault();
 
   const email = document.getElementById('loginEmail').value.trim();
   const password = document.getElementById('loginPassword').value;
+  const selectedRole = document.getElementById('loginRole')?.value || 'attendee';
 
   if (!email || !password) {
     showErrorMessage('Please fill in all fields');
@@ -147,31 +148,42 @@ function handleLogin(e) {
     return;
   }
 
-  const newUser = {
-    id: generateId(),
-    email: email,
-    firstName: email.split('@')[0],
-    lastName: 'User',
-    role: 'attendee',
-    loginMethod: 'email',
-    createdAt: new Date().toISOString(),
-    events: [],
-    registeredEvents: [],
-    isOnline: true
-  };
+  // Show loading state
+  showLoadingMessage('Logging in...');
 
-  currentUser = newUser;
-  saveUserToStorage();
+  // Call backend API
+  const result = await API.auth.login(email, password, selectedRole);
 
-  showSuccessMessage('Login successful! Redirecting...');
+  if (result.success) {
+    const userData = result.data.user;
+    
+    // Store user data in localStorage
+    currentUser = {
+      id: userData.id,
+      email: userData.email,
+      firstName: userData.name?.split(' ')[0] || 'User',
+      lastName: userData.name?.split(' ')[1] || '',
+      role: userData.role,
+      loginMethod: 'email',
+      createdAt: new Date().toISOString(),
+      events: [],
+      registeredEvents: [],
+      isOnline: true
+    };
 
-  setTimeout(() => {
-    window.location.href = 'events.html';
-  }, 1500);
+    saveUserToStorage();
+    showSuccessMessage('Login successful! Redirecting...');
+
+    setTimeout(() => {
+      window.location.href = 'events.html';
+    }, 1500);
+  } else {
+    showErrorMessage(result.error || 'Login failed. Please check your credentials.');
+  }
 }
 
 // Handle signup submission
-function handleSignup(e) {
+async function handleSignup(e) {
   e.preventDefault();
 
   const firstName = document.getElementById('firstName').value.trim();
@@ -217,29 +229,40 @@ function handleSignup(e) {
     return;
   }
 
-  const newUser = {
-    id: generateId(),
-    firstName: firstName,
-    lastName: lastName,
-    email: email,
-    password: password,
-    role: role,
-    loginMethod: 'email',
-    createdAt: new Date().toISOString(),
-    events: [],
-    registeredEvents: [],
-    isOnline: true
-  };
+  // Show loading state
+  showLoadingMessage('Creating account...');
 
-  userDatabase.push(newUser);
-  currentUser = newUser;
-  saveUserToStorage();
+  // Call backend API to register
+  const result = await API.auth.register(firstName, lastName, email, password, role);
 
-  showSuccessMessage('Account created successfully! Redirecting...');
+  if (result.success) {
+    const userData = result.data;
 
-  setTimeout(() => {
-    window.location.href = 'events.html';
-  }, 1500);
+    // Store user data in localStorage
+    currentUser = {
+      id: userData.id,
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      role: role,
+      loginMethod: 'email',
+      createdAt: new Date().toISOString(),
+      events: [],
+      registeredEvents: [],
+      isOnline: true
+    };
+
+    userDatabase.push(currentUser);
+    saveUserToStorage();
+
+    showSuccessMessage('Account created successfully! Redirecting...');
+
+    setTimeout(() => {
+      window.location.href = 'events.html';
+    }, 1500);
+  } else {
+    showErrorMessage(result.error || 'Registration failed. Please try again.');
+  }
 }
 
 // Password strength indicator

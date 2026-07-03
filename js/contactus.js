@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const form = document.getElementById("contactForm");
 
-    form.addEventListener("submit", function(event) {
+    form.addEventListener("submit", async function(event) {
 
         event.preventDefault();
 
@@ -32,13 +32,28 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        alert(
-            "Thank you, " +
-            fullName +
-            "! Your message has been sent successfully."
-        );
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
 
-        form.reset();
+        // Send to backend API
+        const result = await API.contact.submitForm(fullName, email, message);
+
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+
+        if (result.success) {
+            alert(
+                "Thank you, " +
+                fullName +
+                "! Your message has been sent successfully."
+            );
+            form.reset();
+        } else {
+            alert("Failed to send message. Please try again: " + result.error);
+        }
     });
 
 });

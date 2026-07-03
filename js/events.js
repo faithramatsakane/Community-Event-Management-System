@@ -4,9 +4,26 @@
 let filteredEvents = [];
 
 document.addEventListener('DOMContentLoaded', function() {
-  displayAllEvents();
+  loadAndDisplayEvents();
   setupEventFilters();
 });
+
+// Load events from backend and display
+async function loadAndDisplayEvents() {
+  showLoadingMessage('Loading events...');
+  
+  const result = await API.events.getAll();
+  
+  if (result.success) {
+    eventDatabase = result.data;
+    displayAllEvents();
+    hideLoadingMessage();
+  } else {
+    showErrorMessage('Failed to load events. Using cached data.');
+    console.error('Events API error:', result.error);
+    displayAllEvents();
+  }
+}
 
 // Display all events
 function displayAllEvents() {
@@ -61,11 +78,13 @@ function applyFilters() {
   };
   
   filteredEvents = eventDatabase.filter(event => {
-    // Search filter
+    // Search filter (handle both 'name' and 'title' fields)
     if (criteria.search) {
       const searchLower = criteria.search.toLowerCase();
-      if (!event.name.toLowerCase().includes(searchLower) &&
-          !event.description.toLowerCase().includes(searchLower)) {
+      const eventName = event.name || event.title || '';
+      const eventDesc = event.description || '';
+      if (!eventName.toLowerCase().includes(searchLower) &&
+          !eventDesc.toLowerCase().includes(searchLower)) {
         return false;
       }
     }
@@ -109,26 +128,40 @@ function renderEventsGrid() {
   
   noResults.classList.add('hidden');
   
-  eventsGrid.innerHTML = filteredEvents.map(event => `
-    <article class="event-card" onclick="showEventDetails(${event.id})" tabindex="0" role="button">
-      <figure class="event-image">
-        ${event.image ? `<img src="${event.image}" alt="${event.name}">` : ''}
-      </figure>
-      <section class="event-content">
-        <span class="event-category">${event.category.toUpperCase()}</span>
-        <h3 class="event-title">${event.name}</h3>
-        <section class="event-details">
-          <p> ${formatDate(event.date)} at ${formatTime(event.time)}</p>
-          <p> ${event.venue}, ${event.city}</p>
-          <p> ${event.attendees}/${event.capacity} attendees</p>
+  eventsGrid.innerHTML = filteredEvents.map(event => {
+    // Handle both frontend and backend field names
+    const eventName = event.name || event.title || 'Unnamed Event';
+    const eventCategory = event.category || 'general';
+    const eventDate = event.date || '';
+    const eventImage = event.image || '';
+    const eventPrice = event.price || 0;
+    const eventCapacity = event.capacity || 100;
+    const eventAttendees = event.attendees || 0;
+    const eventVenue = event.venue || event.location || 'TBA';
+    const eventCity = event.city || '';
+    const eventTime = event.time || '';
+    
+    return `
+      <article class="event-card" onclick="showEventDetails(${event.id})" tabindex="0" role="button">
+        <figure class="event-image">
+          ${eventImage ? `<img src="${eventImage}" alt="${eventName}">` : ''}
+        </figure>
+        <section class="event-content">
+          <span class="event-category">${eventCategory.toUpperCase()}</span>
+          <h3 class="event-title">${eventName}</h3>
+          <section class="event-details">
+            <p> ${formatDate(eventDate)} ${eventTime ? `at ${formatTime(eventTime)}` : ''}</p>
+            <p> ${eventVenue}${eventCity ? `, ${eventCity}` : ''}</p>
+            <p> ${eventAttendees}/${eventCapacity} attendees</p>
+          </section>
+          <div class="event-price ${eventPrice === 0 ? 'free' : ''}">
+            ${eventPrice === 0 ? 'FREE' : 'R' + eventPrice.toFixed(2)}
+          </div>
+          <button class="event-button" type="button">View Details</button>
         </section>
-        <div class="event-price ${event.price === 0 ? 'free' : ''}">
-          ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}
-        </div>
-        <button class="event-button" type="button">View Details</button>
-      </section>
-    </article>
-  `).join('');
+      </article>
+    `;
+  }).join('');
 }
 
 // Show event details modal
@@ -141,38 +174,56 @@ function showEventDetails(eventId) {
   
   if (!modal || !modalContent) return;
   
-  const availableSpots = event.capacity - event.attendees;
+  // Handle both frontend and backend field names
+  const eventName = event.name || event.title || 'Unnamed Event';
+  const eventDescription = event.description || '';
+  const eventCategory = event.category || 'general';
+  const eventType = event.type || 'community';
+  const eventDate = event.date || '';
+  const eventTime = event.time || '';
+  const eventVenue = event.venue || event.location || 'TBA';
+  const eventAddress = event.address || '';
+  const eventCity = event.city || '';
+  const eventPrice = event.price || 0;
+  const eventCapacity = event.capacity || 100;
+  const eventAttendees = event.attendees || 0;
+  const eventOrganizer = event.organizer || 'Community Team';
+  const eventEmail = event.contactEmail || '';
+  const eventPhone = event.phone || '';
+  const eventImage = event.image || '';
+  
+  const availableSpots = eventCapacity - eventAttendees;
   
   modalContent.innerHTML = `
-    <h2>${event.name}</h2>
+    <h2>${eventName}</h2>
     <section style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin: 2rem 0;">
       <figure style="width: 100%; height: 250px; display: flex; align-items: center; justify-content: center; border-radius: 8px; overflow: hidden; background: #f2f2f2;">
-        ${event.image ? `<img src="${event.image}" alt="${event.name}" style="width:100%; height:100%; object-fit:cover;">` : ''}
+        ${eventImage ? `<img src="${eventImage}" alt="${eventName}" style="width:100%; height:100%; object-fit:cover;">` : ''}
       </figure>
       <section>
         <h3 style="color: var(--primary); margin-bottom: 1rem;">Event Information</h3>
-        <p><strong>Category:</strong> ${event.category.charAt(0).toUpperCase() + event.category.slice(1)}</p>
-        <p><strong>Type:</strong> ${event.type.charAt(0).toUpperCase() + event.type.slice(1)}</p>
-        <p><strong>Date:</strong> ${formatDate(event.date)}</p>
-        <p><strong>Time:</strong> ${formatTime(event.time)}</p>
-        <p><strong>Venue:</strong> ${event.venue}</p>
-        <p><strong>Location:</strong> ${event.address}, ${event.city}</p>
-        <p><strong>Price:</strong> ${event.price === 0 ? 'FREE' : 'R' + event.price.toFixed(2)}</p>
-        <p><strong>Attendees:</strong> ${event.attendees}/${event.capacity}</p>
+        <p><strong>Category:</strong> ${eventCategory.charAt(0).toUpperCase() + eventCategory.slice(1)}</p>
+        <p><strong>Type:</strong> ${eventType.charAt(0).toUpperCase() + eventType.slice(1)}</p>
+        <p><strong>Date:</strong> ${formatDate(eventDate)}</p>
+        ${eventTime ? `<p><strong>Time:</strong> ${formatTime(eventTime)}</p>` : ''}
+        <p><strong>Venue:</strong> ${eventVenue}</p>
+        <p><strong>Location:</strong> ${eventAddress}${eventCity ? `, ${eventCity}` : ''}</p>
+        <p><strong>Price:</strong> ${eventPrice === 0 ? 'FREE' : 'R' + eventPrice.toFixed(2)}</p>
+        <p><strong>Attendees:</strong> ${eventAttendees}/${eventCapacity}</p>
         <p><strong>Available Spots:</strong> ${availableSpots}</p>
       </section>
     </section>
     
     <section>
       <h3 style="color: var(--primary); margin: 2rem 0 1rem;">Description</h3>
-      <p>${event.description}</p>
+      <p>${eventDescription}</p>
     </section>
     
     <section>
       <h3 style="color: var(--primary); margin: 2rem 0 1rem;">Organizer Information</h3>
-      <p><strong>Organizer:</strong> ${event.organizer}</p>
-      <p><strong>Email:</strong> <a href="mailto:${event.contactEmail}">${event.contactEmail}</a></p>
-      ${event.phone ? `<p><strong>Phone:</strong> ${event.phone}</p>` : ''}
+      <p><strong>Organizer:</strong> ${eventOrganizer}</p>
+      ${eventEmail ? `<p><strong>Email:</strong> <a href="mailto:${eventEmail}">${eventEmail}</a></p>` : ''}
+      ${eventPhone ? `<p><strong>Phone:</strong> ${eventPhone}</p>` : ''}
     </section>
     
     <footer style="display: flex; gap: 1rem; margin-top: 2rem;">

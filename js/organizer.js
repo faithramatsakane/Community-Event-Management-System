@@ -62,7 +62,7 @@ function setupTabSwitching() {
 }
 
 // Handle create event form submission
-function handleCreateEvent(e) {
+async function handleCreateEvent(e) {
   e.preventDefault();
   
   // Check if user is logged in
@@ -126,57 +126,72 @@ function handleCreateEvent(e) {
     return;
   }
   
+  // Show loading state
+  showLoadingMessage('Creating event...');
+  
   // Parse date and time
   const startDate = new Date(startDateTime).toISOString().split('T')[0];
   const startTime = startDateTime.split('T')[1].substring(0, 5);
   
-  // Create event object
-  const newEvent = {
-    id: generateId(),
-    name: eventName,
+  // Create event object for backend
+  const eventData = {
+    title: eventName,
     description: description,
     category: category,
-    type: type,
     date: startDate,
-    time: startTime,
-    venue: venue,
-    city: city,
-    address: address,
-    postalCode: postalCode,
+    location: venue,
     price: price,
     capacity: capacity,
-    attendees: 0,
-    organizer: organizer,
-    contactEmail: contactEmail,
-    phone: phone,
-    imageUrl: imageUrl,
-    image: '📅',
-    createdAt: new Date().toISOString(),
-    organizerId: currentUser.id,
-    ratings: []
+    organizerId: currentUser.id
   };
   
-  // Add to event database
-  eventDatabase.push(newEvent);
+  // Send to backend API
+  const result = await API.events.create(eventData);
   
-  // Add to user's events
-  if (!currentUser.events) {
-    currentUser.events = [];
+  if (result.success) {
+    const newEvent = result.data;
+    
+    // Store locally for UI consistency
+    const eventWithExtra = {
+      ...newEvent,
+      id: newEvent.id,
+      name: eventName,
+      type: type,
+      city: city,
+      address: address,
+      postalCode: postalCode,
+      attendees: 0,
+      organizer: organizer,
+      contactEmail: contactEmail,
+      phone: phone,
+      imageUrl: imageUrl,
+      image: '📅',
+      organizerId: currentUser.id,
+      ratings: []
+    };
+    
+    eventDatabase.push(eventWithExtra);
+    
+    // Add to user's events
+    if (!currentUser.events) {
+      currentUser.events = [];
+    }
+    currentUser.events.push(newEvent.id);
+    saveUserToStorage();
+    
+    showSuccessMessage('Event created successfully!');
+    
+    // Reset form
+    e.target.reset();
+    
+    // Refresh my events list
+    loadMyEvents();
+    
+    // Switch to my events tab
+    switchTab('my-events');
+  } else {
+    showErrorMessage(result.error || 'Failed to create event. Please try again.');
   }
-  currentUser.events.push(newEvent.id);
-  saveUserToStorage();
-  
-  // Show success message
-  showSuccessMessage('Event created successfully!');
-  
-  // Reset form
-  e.target.reset();
-  
-  // Refresh my events list
-  loadMyEvents();
-  
-  // Switch to my events tab
-  switchTab('my-events');
 }
 
 // Load user's created events
